@@ -1,0 +1,18 @@
+
+library('foreign')
+dis1 <- read.spss('DeprOnly.sav',to.data.frame=TRUE,use.value.labels=FALSE)
+
+table(dis1$NQ47,useNA='ifany') # 1 = Female, 2 = Male
+
+norm1 <- read.spss('../NoDisorder.sav',to.data.frame=TRUE,use.value.labels=FALSE)
+
+dis2 <- dis1[,c('NQ47','Cigret','Alcohol','Marij','Cocaine','MDMA','Halluc')]
+head(dis2)
+norm2 <- norm1[,c('NQ47','Cigret','Alcohol','Marij','Cocaine','MDMA','Halluc')]
+
+dis <- dis2[rowSums(is.na(dis2))==0,]
+norm <- norm2[rowSums(is.na(norm2))==0,]
+
+
+dis$dis <- 1
+norm$dis <- 0
